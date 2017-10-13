@@ -1,6 +1,6 @@
 # Software metrology
 
-This is the future respository of the software metrology project of the
+This is the future repository of the software metrology project of the
 [Information Technology Laboratory](https://www.nist.gov/itl) of the
 U.S. [National Institute of Standards and Technology](https://www.nist.gov).
 Nothing has been imported yet.
