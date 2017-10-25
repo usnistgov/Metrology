@@ -1,0 +1,547 @@
+diff --unified --new-file --recursive '--exclude=*~' '--exclude=autom4te.cache' udunits-2.2.25/lib/formatter.c udunits-2.2.25-dwf/lib/formatter.c
+--- udunits-2.2.25/lib/formatter.c	2017-05-16 12:18:03.000000000 -0400
++++ udunits-2.2.25-dwf/lib/formatter.c	2017-10-10 13:39:06.539946668 -0400
+@@ -117,6 +117,8 @@
+  * Returns:
+  *	NULL		A symbol is not available in the desired encoding.
+  *	else		Pointer to the symbol.
++ *
++ * DWF:  If a unit has no symbol, fall back to getName.
+  */
+ static const char*
+ getSymbol(
+@@ -130,6 +132,10 @@
+     if (symbol == NULL)
+ 	symbol = ut_get_symbol(unit, UT_ASCII);
+ 
++    // DWF: fall back to getName on failure.
++    if (symbol == NULL)
++        symbol = getName(unit, encoding);
++
+     return symbol;
+ }
+ 
+diff --unified --new-file --recursive '--exclude=*~' '--exclude=autom4te.cache' udunits-2.2.25/lib/udunits2-accepted.xml udunits-2.2.25-dwf/lib/udunits2-accepted.xml
+--- udunits-2.2.25/lib/udunits2-accepted.xml	2017-05-16 12:18:03.000000000 -0400
++++ udunits-2.2.25-dwf/lib/udunits2-accepted.xml	2017-10-10 13:39:06.539946668 -0400
+@@ -30,15 +30,6 @@
+             <definition>period of time equal to 24 hours</definition>
+         </unit>
+         <unit>
+-            <comment>This "unit" is useful in the definition of subsequent units.</comment>
+-            <def>3.141592653589793238462643383279</def>
+-            <aliases>
+-                <name><singular>pi</singular><noplural/></name>
+-                <symbol comment="GREEK SMALL LETTER PI">&#x3c0;</symbol>        
+-            </aliases>
+-            <definition>mathematical constant equal to the ratio of a circle's circumference to its diameter</definition>
+-        </unit>
+-        <unit>
+             <def>(pi/180) rad</def>
+             <name><singular>arc_degree</singular></name>
+             <symbol comment="DEGREE SIGN">&#xB0;</symbol>             
+diff --unified --new-file --recursive '--exclude=*~' '--exclude=autom4te.cache' udunits-2.2.25/lib/udunits2-base.xml udunits-2.2.25-dwf/lib/udunits2-base.xml
+--- udunits-2.2.25/lib/udunits2-base.xml	2017-05-16 12:18:03.000000000 -0400
++++ udunits-2.2.25-dwf/lib/udunits2-base.xml	2017-10-10 13:39:06.539946668 -0400
+@@ -42,14 +42,21 @@
+     </unit>
+     <unit>
+         <base/>
+-        <name><singular>mole</singular></name>
+-        <symbol>mol</symbol>
+-        <definition>The mole is the amount of substance of a system which contains as many elementary entities as there are atoms in 0.012 kilogram of carbon 12. When the mole is used, the elementary entities must be specified and may be atoms, molecules, ions, electrons, other particles, or specified groups of such particles.</definition>
+-    </unit>
+-    <unit>
+-        <base/>
+         <name><singular>candela</singular></name>
+         <symbol>cd</symbol>
+         <definition>The candela is the luminous intensity, in a given direction, of a source that emits monochromatic radiation of frequency 540e12 hertz and that has a radiant intensity in that direction of 1/683 watt per steradian.</definition>
+     </unit>
++
++    <unit>
++	<comment>Constant</comment>
++	<def>6.022140857e23</def>
++	<aliases>
++	    <name>
++	      <singular>mole</singular>
++	      <plural>moles</plural>
++	    </name>
++	    <symbol>mol</symbol>
++	</aliases>
++	<definition>number of elementary entities per SI mole of a given substance</definition>
++    </unit>
+ </unit-system>
+diff --unified --new-file --recursive '--exclude=*~' '--exclude=autom4te.cache' udunits-2.2.25/lib/udunits2-common.xml udunits-2.2.25-dwf/lib/udunits2-common.xml
+--- udunits-2.2.25/lib/udunits2-common.xml	2017-05-16 12:18:03.000000000 -0400
++++ udunits-2.2.25-dwf/lib/udunits2-common.xml	2017-10-10 13:39:06.539946668 -0400
+@@ -59,22 +59,6 @@
+         </unit>
+         <unit>
+             <comment>Synonym for SI unit</comment>
+-            <def>mole</def>
+-            <aliases> <name> <singular>einstein</singular> </name> </aliases>
+-            <definition>unit of chemical mass, synonym for mole</definition>
+-        </unit>
+-        <unit>
+-            <comment>Synonym for SI unit</comment>
+-            <def>Hz</def>
+-            <aliases>
+-                <name> <singular>baud</singular> </name>
+-                <symbol>Bd</symbol>
+-                <symbol>bps</symbol>
+-            </aliases>
+-            <definition>unit of frequency, synonym for hertz</definition>
+-        </unit>
+-        <unit>
+-            <comment>Synonym for SI unit</comment>
+             <def>degree_Celsius</def>
+             <aliases>
+                 <symbol comment="DEGREE CELSIUS">&#x2103;</symbol>       
+@@ -110,15 +94,6 @@
+ 
+     <!-- Constants -->
+         <unit>
+-            <comment>Constant; value is +-30e15</comment>
+-            <def>6.02214179e23/mol</def>
+-            <aliases>
+-                <name><singular>avogadro_constant</singular></name>
+-                <noplural/>
+-            </aliases>
+-            <definition>number of constituent particles (usually atoms or molecules) per mole of a given substance</definition>
+-        </unit>
+-        <unit>
+             <comment>Constant</comment>
+             <def>0.01</def>
+             <aliases>
+@@ -186,17 +161,6 @@
+             <definition>1/100 of a right angle (90 degrees)</definition>
+         </unit>
+         <unit>
+-            <def>2 pi rad</def>
+-            <aliases>
+-                <name><singular>circle</singular></name>
+-                <name><singular>cycle</singular></name>
+-                <name><singular>turn</singular></name>
+-                <name><singular>revolution</singular></name>
+-                <name><singular>rotation</singular></name>
+-            </aliases>
+-            <definition>unit of angle in a plane signifying a full 360-degree circle</definition>
+-        </unit>
+-        <unit>
+             <def>arc_degree</def>
+             <aliases>
+                 <name>
+@@ -1951,28 +1915,6 @@
+             <definition></definition>
+         </unit>
+         <unit>
+-            <def>1</def>
+-            <aliases>
+-                <name> <singular>count</singular> </name>
+-            </aliases>
+-            <definition></definition>
+-        </unit>
+-        <unit>
+-            <def>1</def>
+-            <aliases>
+-                <name> <singular>bit</singular> </name>
+-            </aliases>
+-            <definition></definition>
+-        </unit>
+-        <unit>
+-            <def>8</def>
+-            <aliases>
+-                <name><singular>octet</singular></name>
+-                <name><singular>byte</singular></name>
+-            </aliases>
+-            <definition></definition>
+-        </unit>
+-        <unit>
+             <def>446.2 micromoles/meter^2</def>
+             <aliases>
+                 <name> <singular>dobson</singular> </name>
+@@ -1980,14 +1922,4 @@
+             </aliases>
+             <definition></definition>
+         </unit>
+-        <unit>
+-            <def>1/avogadro_constant</def>
+-            <name><singular>molecule</singular></name>
+-            <aliases>
+-                <name><singular>molec</singular></name>
+-                <name><singular>nucleon</singular></name>
+-                <name><singular>nuc</singular></name>
+-            </aliases>
+-            <definition></definition>
+-        </unit>
+ </unit-system>
+diff --unified --new-file --recursive '--exclude=*~' '--exclude=autom4te.cache' udunits-2.2.25/lib/udunits2-derived.xml udunits-2.2.25-dwf/lib/udunits2-derived.xml
+--- udunits-2.2.25/lib/udunits2-derived.xml	2017-05-16 12:18:03.000000000 -0400
++++ udunits-2.2.25-dwf/lib/udunits2-derived.xml	2017-10-10 13:39:06.539946668 -0400
+@@ -9,14 +9,187 @@
+ SI derived units with special names and symbols
+ -->
+ <unit-system>
++
++    <!-- Merged udunits2-counted.xml -->
++
++    <unit>
++        <comment>Mohr+Phillips unit redefined as the supertype</comment>
++        <dimensionless/>
++        <name><singular>count</singular></name>
++        <symbol>cnt</symbol>
++        <definition>Count 1, generic supertype of all counting units</definition>
++    </unit>
++
++    <!-- Counting units from Mohr+Phillips -->
++	<unit>
++	    <dimensionless/>
++	    <name><singular>event</singular></name>
++	    <symbol>evt</symbol>
++	    <super>count</super>
++	    <definition>One event, a counting unit</definition>
++	</unit>
++	<unit>
++	    <dimensionless/>
++	    <name><singular>entity</singular></name>
++	    <symbol>ent</symbol>
++	    <super>count</super>
++	    <definition>One entity, a counting unit</definition>
++	</unit>
++
++	<unit>
++	    <dimensionless/>
++	    <name><singular>molecule</singular></name>
++	    <symbol>mcl</symbol>
++	    <super>entity</super>
++	    <definition>One molecule, a counting unit</definition>
++	</unit>
++	<unit>
++            <comment>Mohr+Phillips symbol atm already taken by atmosphere</comment>
++	    <dimensionless/>
++	    <name><singular>atom</singular></name>
++	    <super>entity</super>
++	    <definition>One atom, a counting unit</definition>
++	</unit>
++	<unit>
++	    <dimensionless/>
++	    <name><singular>particle</singular></name>
++	    <symbol>pcl</symbol>
++	    <super>entity</super>
++	    <definition>One particle, a counting unit</definition>
++	</unit>
++
++	<unit>
++	    <comment>Corresponding to count in Mohr+Phillips</comment>
++	    <dimensionless/>
++	    <name><singular>detection</singular></name>
++	    <super>event</super>
++	    <definition>One detection event, a counting unit</definition>
++	</unit>
++	<unit>
++	    <dimensionless/>
++	    <name><singular>decay</singular></name>
++	    <symbol>dcy</symbol>
++	    <super>event</super>
++	    <definition>One decay event, a counting unit</definition>
++	</unit>
++
++    <!-- Software -->
++	<unit>
++	    <comment>Symbol b not clearly universally accepted</comment>
++	    <dimensionless/>
++	    <name><singular>bit</singular></name>
++	    <super>entity</super>
++	    <definition>One bit, a counting unit</definition>
++	</unit>
++	<unit>
++	    <def>8 bits</def>
++	    <aliases>
++		<name><singular>octet</singular></name>
++		<name><singular>byte</singular></name>
++	    </aliases>
++            <symbol>B</symbol>
++	    <definition>Constant = 8 bits</definition>
++	</unit>
++
++	<unit>
++	    <dimensionless/>
++	    <name><singular>pixel</singular></name>
++	    <symbol>px</symbol>
++	    <super>entity</super>
++	    <definition>One pixel, a counting unit</definition>
++	</unit>
++	<unit>
++	    <dimensionless/>
++	    <name><singular>fault</singular></name>
++	    <super>entity</super>
++	    <definition>One fault, a counting unit</definition>
++	</unit>
++	<unit>
++	    <dimensionless/>
++	    <name>
++                <singular>line_of_code</singular>
++                <plural>lines_of_code</plural>
++            </name>
++            <symbol>LOC</symbol>
++	    <super>entity</super>
++	    <definition>One line of code, a counting unit</definition>
++	</unit>
++	<unit>
++	    <dimensionless/>
++	    <name><singular>failure</singular></name>
++	    <symbol>fail</symbol>
++	    <super>event</super>
++	    <definition>One failure event, a counting unit</definition>
++	</unit>
++	<unit>
++	    <dimensionless/>
++	    <name><singular>clocktick</singular></name>
++	    <super>event</super>
++	    <definition>One clocktick (e.g., CPU or GPU cycle), a counting unit</definition>
++	</unit>
++
++    <!-- __________________________________________________________________ -->
++    <!-- Merged udunits2-ratios.xml -->
++
++    <unit>
++        <dimensionless/>
++        <name><singular>ratio</singular></name>
++        <definition>Ratio 1, generic supertype of all dimensionless ratio units</definition>
++    </unit>
++
++    <unit>
++	<comment>This numerical constant is useful in the definition of subsequent units.</comment>
++	<def>3.141592653589793238462643383279</def>
++	<aliases>
++	    <name><singular>pi</singular><noplural/></name>
++	    <symbol comment="GREEK SMALL LETTER PI">&#x3c0;</symbol>        
++	</aliases>
++	<definition>mathematical constant equal to the ratio of a circle's circumference to its diameter</definition>
++    </unit>
++
+     <unit>
+         <comment>SI derived unit</comment>
+         <dimensionless/>
+         <name><singular>radian</singular></name>
+         <symbol>rad</symbol>
++        <super>ratio</super>
++        <ratiodef>m/m</ratiodef>
+         <definition>standard unit of angular measure, an angle that creates an arc in a circle equal in length to that circle's radius (roughly 57.3 degrees); as a ratio of two lengths, it has no dimension</definition>
+     </unit>
+     <unit>
++	<def>2 pi rad</def>
++	<aliases>
++	    <name><singular>circle</singular></name>
++	    <name><singular>cycle</singular></name>
++	    <name><singular>turn</singular></name>
++	    <name><singular>revolution</singular></name>
++	    <name><singular>rotation</singular></name>
++	</aliases>
++	<definition>unit of angle in a plane signifying a full 360-degree circle</definition>
++    </unit>
++
++    <!-- DWF: Without an automatic reduction to kg/kg or 1, there's nothing
++         you can do with this.
++      <unit>
++	  <dimensionless/>
++	  <name><singular>massfrac</singular></name>
++	  <super>ratio</super>
++	  <ratiodef>kg/kg</ratiodef>
++	  <definition>Dimensionless ratio = kg/kg</definition>
++      </unit>
++    -->
++    <unit>
++        <def>kg/kg</def>
++        <aliases>
++          <name><singular>mass_fraction</singular></name>
++        </aliases>
++        <super>ratio</super>
++        <definition>Dimensionless ratio = kg/kg</definition>
++    </unit>
++
++    <!-- __________________________________________________________________ -->
++    <!-- Remainder of original udunits2-derived.xml -->
++    <unit>
+         <comment>SI derived unit</comment>
+         <def>rad^2</def>
+         <name><singular>steradian</singular></name>
+@@ -25,7 +198,7 @@
+     </unit>
+     <unit>
+         <comment>SI derived unit</comment>
+-        <def>1/s</def>
++        <def>cycle/s</def>
+         <name><singular>hertz</singular></name>
+         <symbol>Hz</symbol>
+         <definition>unit of frequency meaning one cycle per second</definition>
+@@ -159,14 +332,13 @@
+     <!-- SI derived units with special names and symbols admitted for
+     reasons of safeguarding human health -->
+ 	<unit>
+-        <comment>SI derived unit with special names/symbols admitted for reasons of safeguarding human health</comment>
+-		<def>1/s</def>
+-		<aliases>
+-			<name comment="Is an alias because '1/s' is already mapped to 'hertz' and 'Hz'"><singular>becquerel</singular></name>
+-			<symbol comment="Is an alias because '1/s' is already mapped to 'hertz' and 'Hz'">Bq</symbol>
+-		</aliases>
+-		<definition>unit of radioactivity; the activity of a quantity of material in which one nucleus decays per second (hence, equivalent to one unit per second)</definition>
++	    <comment>SI derived unit</comment>
++	    <def>decay/s</def>
++	    <name><singular>becquerel</singular></name>
++	    <symbol>Bq</symbol>
++	    <definition>unit of radioactivity; the activity of a quantity of material in which one nucleus decays per second</definition>
+ 	</unit>
++
+ 	<unit>
+         <comment>SI derived unit with special names/symbols admitted for reasons of safeguarding human health</comment>
+ 		<def>J/kg</def>
+@@ -183,4 +355,10 @@
+ 		</aliases>
+ 		<definition>unit of ionizing radiation dose, measuring the health effect of low levels of ionizing radiation on the human body</definition>
+ 	</unit>
++
++    <!-- Software -->
++	<unit>
++	    <def>bit/s</def>
++	    <name><singular>bps</singular></name>
++	</unit>
+ </unit-system>
+diff --unified --new-file --recursive '--exclude=*~' '--exclude=autom4te.cache' udunits-2.2.25/lib/udunits2-prefixes.xml udunits-2.2.25-dwf/lib/udunits2-prefixes.xml
+--- udunits-2.2.25/lib/udunits2-prefixes.xml	2017-05-16 12:18:03.000000000 -0400
++++ udunits-2.2.25-dwf/lib/udunits2-prefixes.xml	2017-10-10 13:39:06.539946668 -0400
+@@ -73,4 +73,38 @@
+     <prefix>
+         <value>1e-24</value> <name>yocto</name>	<symbol>y</symbol>
+     </prefix>
++
++    <!-- 2^20 and kibi^2 don't work; must be decimal, apparently -->
++    <prefix>
++        <value>1024</value>
++        <name>kibi</name><symbol>Ki</symbol>
++    </prefix>
++    <prefix>
++        <value>1048576</value>
++        <name>mebi</name><symbol>Mi</symbol>
++    </prefix>
++    <prefix>
++        <value>1073741824</value>
++        <name>gibi</name><symbol>Gi</symbol>
++    </prefix>
++    <prefix>
++        <value>1099511627776</value>
++        <name>tebi</name><symbol>Ti</symbol>
++    </prefix>
++    <prefix>
++        <value>1125899906842624</value>
++        <name>pebi</name><symbol>Pi</symbol>
++    </prefix>
++    <prefix>
++        <value>1152921504606846976</value>
++        <name>exbi</name><symbol>Ei</symbol>
++    </prefix>
++    <prefix>
++        <value>1180591620717411303424</value>
++        <name>zebi</name><symbol>Zi</symbol>
++    </prefix>
++    <prefix>
++        <value>1208925819614629174706176</value>
++        <name>yobi</name><symbol>Yi</symbol>
++    </prefix>
+ </unit-system>
+diff --unified --new-file --recursive '--exclude=*~' '--exclude=autom4te.cache' udunits-2.2.25/lib/unitcore.c udunits-2.2.25-dwf/lib/unitcore.c
+--- udunits-2.2.25/lib/unitcore.c	2017-05-16 12:18:03.000000000 -0400
++++ udunits-2.2.25-dwf/lib/unitcore.c	2017-10-10 13:39:06.539946668 -0400
+@@ -1352,6 +1352,7 @@
+ }
+ 
+ 
++#if 0
+ /*
+  * Returns the relationship between two product-units.  In determining the
+  * relationship, dimensionless basic-units are ignored.
+@@ -1367,7 +1368,7 @@
+  *				unconvertible.
+  */
+ static ProductRelationship
+-productRelationship(
++productRelationship_orig(
+     const ProductUnit* const	unit1,
+     const ProductUnit* const	unit2)
+ {
+@@ -1450,6 +1451,75 @@
+ 
+     return relationship;
+ }
++#endif
++
++
++/*
++ * Returns the relationship between two product-units.
++ *
++ * Arguments:
++ *	unit1	The first product unit.
++ *	unit2	The second product unit.
++ * Returns:
++ *	PRODUCT_EQUAL		The units are equal -- ignoring dimensionless
++ *				basic-units.
++ *	PRODUCT_INVERSE		The units are reciprocals of each other.
++ *	PRODUCT_UNCONVERTIBLE	The dimensionalities of the units are
++ *				unconvertible.
++ *
++ * DWF:  Modified to *not* ignore dimensionless basic-units.
++ */
++static ProductRelationship
++productRelationship(
++    const ProductUnit* const	unit1,
++    const ProductUnit* const	unit2)
++{
++    ProductRelationship		relationship = PRODUCT_UNKNOWN;
++
++    assert(unit1 != NULL);
++    assert(unit2 != NULL);
++
++    {
++	const short* const	indexes1 = unit1->indexes;
++	const short* const	indexes2 = unit2->indexes;
++	const short* const	powers1 = unit1->powers;
++	const short* const	powers2 = unit2->powers;
++	const int		count1 = unit1->count;
++	const int		count2 = unit2->count;
++	const ut_system* const	system = unit1->common.system;
++
++	assert (count1 >= 0);
++	assert (count2 >= 0);
++
++	if (count1 != count2)
++	    return PRODUCT_UNCONVERTIBLE;
++	if (count1 == 0)
++	    return PRODUCT_EQUAL; // Plain numbers
++
++	for (int i=0; i<count1; ++i) {
++	    if (indexes1[i] != indexes2[i])
++	        return PRODUCT_UNCONVERTIBLE;
++
++	    // if (!system->basicUnits[iBasic]->isDimensionless) {
++	    // DWF:  May want to disregard powers of counting units.  TBD
++	    if (powers1[i] == powers2[i]) {
++		if (relationship == PRODUCT_INVERSE)
++		    return PRODUCT_UNCONVERTIBLE;
++		relationship = PRODUCT_EQUAL;
++	    }
++	    else if (powers1[i] == -powers2[i]) {
++		if (relationship == PRODUCT_EQUAL)
++		    return PRODUCT_UNCONVERTIBLE;
++		relationship = PRODUCT_INVERSE;
++	    }
++	    else
++		return PRODUCT_UNCONVERTIBLE;
++	}
++    }
++
++    assert (relationship != PRODUCT_UNKNOWN);
++    return relationship;
++}
+ 
+ 
+ static ut_status

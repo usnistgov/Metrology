@@ -1,0 +1,19 @@
+diff -ur units/R/ud_units.R units-dwf/R/ud_units.R
+--- units/R/ud_units.R	2017-02-28 14:50:20.000000000 -0500
++++ units-dwf/R/ud_units.R	2017-10-10 15:05:31.000000000 -0400
+@@ -56,13 +56,13 @@
+ 
+ # Use this to generate the data -- to avoid Travis problems the result
+ # is stored as package data
+-#ud_units <- .construct_ud_units()
++ud_units <- .construct_ud_units()
+ #devtools::use_data(ud_units)
+ 
+ #' List containing pre-defined units from the udunits2 package.
+ #' 
+ #' Lazy loaded when used
+ #' @export
+-ud_units <- NULL
++#ud_units <- NULL
+ 
+ # nocov end
