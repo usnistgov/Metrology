@@ -4,7 +4,7 @@ This is the repository of the software metrology project of the [Information
 Technology Laboratory](https://www.nist.gov/itl) of the U.S. [National
 Institute of Standards and Technology](https://www.nist.gov).
 
-  * [Dimensionless units software kit](DUSK/README.html)
+  * [Dimensionless units software kit](https://goo.gl/NCuK9f)
 
 Related technical reports and publications:
 

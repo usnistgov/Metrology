@@ -22,4 +22,4 @@ SI](https://doi.org/10.1016/j.measurement.2017.05.043).
 Being experimental, the software kit is not a complete implementation of the
 architecture described and is not expected to be free of problems.
 
-For complete information, license, and disclaimers, please refer to [README.html](README.html).
+For complete information, license, and disclaimers, please refer to [README.html](https://goo.gl/NCuK9f).
