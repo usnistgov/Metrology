@@ -21,6 +21,8 @@ Related technical reports and publications:
         Computer Standards & Interfaces (2017)
   * Presentation, [Mostly sunny with a chance of
     cyber](https://www.nist.gov/node/1114701) (2016)
+  * [Bad Security Metrics Part 1:  Problems](https://doi.org/10.1109/MITP.2018.011301733),
+    IT Professional (2018)
 
 For more related work, see the [software performance
 project](https://www.nist.gov/programs-projects/software-performance-project).
