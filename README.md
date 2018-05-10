@@ -23,6 +23,11 @@ Related technical reports and publications:
     cyber](https://www.nist.gov/node/1114701) (2016)
   * [Bad Security Metrics Part 1:  Problems](https://doi.org/10.1109/MITP.2018.011301733),
     IT Professional (2018)
+  * [Bad Security Metrics Part 2:  Solutions](https://doi.org/10.1109/MITP.2018.021921653),
+    IT Professional (2018)
+  * NIST TN 1990, ['Software Science' revisited:  rationalizing Halstead's
+    system using dimensionless units](https://doi.org/10.6028/NIST.TN.1990)
+   (2018)
 
 For more related work, see the [software performance
 project](https://www.nist.gov/programs-projects/software-performance-project).
