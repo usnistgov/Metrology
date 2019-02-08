@@ -58,7 +58,7 @@ install it manually.  Luckily, this is not difficult and only takes a minute:
     4. Relaunch Chrome for this to take effect (use the Relaunch button that appears at the bottom of the screen and all your open tabs will be preserved)
 
 2. Install the extension
-    1. Download either [reaper-1.1.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/reaper-1.1.tar.xz) or [reaper-1.1.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/reaper-1.1.zip)
+    1. Download either [Reaper-1.1.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.tar.xz) or [Reaper-1.1.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.zip)
     2. Unpack the archive file somewhere permanent
     3. Select More Tools > Extensions from the Chrome menu or manually enter the URL chrome://extensions
     4. Ensure the "Developer mode" toggle at the top of the page is on, and click the "Load unpacked" button <img src="devmode.png" text="Developer mode">
