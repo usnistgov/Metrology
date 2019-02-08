@@ -5,6 +5,7 @@ Technology Laboratory](https://www.nist.gov/itl) of the U.S. [National
 Institute of Standards and Technology](https://www.nist.gov).
 
   * [Dimensionless units software kit](https://github.com/usnistgov/Metrology/tree/master/DUSK)
+  * [Chrome Reaper](https://github.com/usnistgov/Metrology/tree/master/Reaper)
 
 Related technical reports and publications:
 

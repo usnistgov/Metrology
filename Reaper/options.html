@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<!-- Based on
+  https://developer.chrome.com/extensions/options
+  CC-By 3.0 license
+  2018-10-26
+-->
+
+<html>
+<head><title>Reaper Options</title></head>
+<body>
+
+<p>
+Time threshold:
+<select id="sthresh">
+ <option value="3">3 s</option>
+ <option value="5">5 s</option>
+ <option value="8">8 s</option>
+ <option value="10">10 s</option>
+ <option value="15">15 s</option>
+ <option value="20">20 s</option>
+ <option value="30">30 s</option>
+</select>
+</p>
+
+<p>
+CPU utilization threshold:
+<select id="cthresh">
+ <option value="10">10 %</option>
+ <option value="20">20 %</option>
+ <option value="30">30 %</option>
+ <option value="40">40 %</option>
+ <option value="50">50 %</option>
+ <option value="60">60 %</option>
+ <option value="70">70 %</option>
+ <option value="80">80 %</option>
+ <option value="90">90 %</option>
+</select>
+</p>
+
+<p>
+Whitelist:<br/>
+<textarea id="wlist" cols="80" rows="5"></textarea><br/>
+One item per line; no regular expressions or wildcards.&nbsp; Whitelisting
+works by exact match with description (e.g., "Tab: World News" or "Extension:
+Reaper") or hostname.
+</p>
+
+<div id="status"></div>
+<button id="save">Save</button>
+
+<script src="options.js"></script>
+</body>
+</html>
