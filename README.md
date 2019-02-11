@@ -29,6 +29,7 @@ Related technical reports and publications:
   * NIST TN 1990, ['Software Science' revisited:  rationalizing Halstead's
     system using dimensionless units](https://doi.org/10.6028/NIST.TN.1990)
    (2018)
+  * NIST TN 2034, [Defining 'kind of quantity'](https://doi.org/10.6028/NIST.TN.2034) (2019)
 
 For more related work, see the [software performance
 project](https://www.nist.gov/programs-projects/software-performance-project).
