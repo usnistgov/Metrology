@@ -19,7 +19,7 @@ When Reaper terminates a process, typically a web page goes blank or an
 extension dies suddenly.  So there is no mystery why this occurred, you get a
 push notification that looks something like this:
 
-<img src="reaper-notification.png" alt="Reaper notification" width=344 height=63>
+<img src="reaper-notification.png" alt="Reaper notification" width=345 height=64>
 
 The rest of the time, Reaper shows itself to be active by displaying the
 total CPU utilization of the browser in a small icon in your address bar.
@@ -171,10 +171,13 @@ the push notification.
 General issues:
 
 - The descriptions of processes are too long for push notifications.
+- Errors are reported when switching to a different Chrome profile or entering/leaving incognito mode.
 
 
 Change Log
 ==========
+
+2019-05-07:  Version 1.1.1:  Revised documentation.
 
 2018-11-28:  Version 1.1:
 
