@@ -58,7 +58,7 @@ install it manually.  Luckily, this is not difficult and only takes a minute:
     4. Relaunch Chrome for this to take effect (use the Relaunch button that appears at the bottom of the screen and all your open tabs will be preserved)
 
 2. Install the extension
-    1. Download either [Reaper-1.1.1.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.1.tar.xz) or [Reaper-1.1.1.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.1.zip)
+    1. Download either [Reaper-1.1.2.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.2.tar.xz) or [Reaper-1.1.2.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.2.zip) (don't right-click; click through and then Download)
     2. Unpack the archive file somewhere permanent
     3. Select More Tools > Extensions from the Chrome menu or manually enter the URL chrome://extensions
     4. Ensure the "Developer mode" toggle at the top of the page is on, and click the "Load unpacked" button <img src="devmode.png" text="Developer mode">
@@ -119,6 +119,11 @@ whitelisting the hostname that appears in the URL.  This allows an entire
 site to be exempted, while a single page on the site could be exempted by
 description.
 
+If whitelisting a hostname seems not to work, check the URL of the terminated
+process in the console log.  Sites are sometimes subtly redirected, e.g.,
+from example.test to www.example.test.  You need to whitelist the hostname
+that was actually terminated.
+
 
 Security
 ========
@@ -147,12 +152,35 @@ and developer mode.
 Privacy
 =======
 
-When Reaper terminates a renderer process, the description and URL of a tab
-are written to the console log and included in the push notification.
+When Reaper terminates a process, the description and associated URL (if
+available) are written to the console log and included in the push
+notification.
 
 
-<a name="log"></a>Issues, Troubleshooting, and Known Problems
-===========================================
+Isolation Problem
+=================
+
+Certain Chrome isolation features are ineffective on Reaper.
+
+- If multiple user profiles ("people") are active simultaneously, Reaper will
+terminate processes belonging to user profiles other than the one in which
+Reaper is installed.
+- Reaper will terminate incognito processes even when Reaper's "Allow in
+incognito" switch is turned off.
+
+When a profile or incognito mode boundary is crossed, Reaper may be unable to
+determine the URL associated with a process.  In that case, the URL will not
+appear in the log, and whitelisting the hostname will not work.
+
+
+Other Known Problems
+====================
+
+The descriptions of processes are too long for push notifications.
+
+
+<a name="log"></a>Troubleshooting
+=================================
 
 Reaper's attempts to terminate processes and possible failures can be found
 in the extension's console log under Developer Tools.  To view the log:
@@ -161,21 +189,15 @@ in the extension's console log under Developer Tools.  To view the log:
 2. Under Reaper, next to Inspect views, click on background.html
 3. Select the Console tab if it is not already selected
 
-Chrome 70.0.3538.77 (Official Build) (64-bit) for Mac:  works as specified.
-
-Chromium 69.0.3497.100 (Developer Build) (32-bit) for Linux:
-chrome.processes.terminate reports failure even though the process is
-actually terminated.  Reaper therefore logs a failure and does not attempt
-the push notification.
-
-General issues:
-
-- The descriptions of processes are too long for push notifications.
-- Errors are reported when switching to a different Chrome profile or entering/leaving incognito mode.
-
 
 Change Log
 ==========
+
+2019-08-19:  Version 1.1.2:
+
+- Documented Reaper's disrespect of profile and incognito mode boundaries.
+- Muted "No tab with id" errors associated with boundary transgression.
+- Fixed missing notifications by ignoring the result from chrome.processes.terminate.
 
 2019-05-07:  Version 1.1.1:  Revised documentation.
 

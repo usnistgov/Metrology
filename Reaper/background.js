@@ -72,7 +72,10 @@ function describeProcess(process) {
 
 function tabCallbackCurry(pid) {
   return function(tab) {
-    pid2url[pid] = [tab.url, (new URL(tab.url)).hostname];
+    // We get "No tab with id: x" when profile boundaries are crossed.
+    if (!chrome.runtime.lastError)
+      if (typeof tab !== 'undefined')
+        pid2url[pid] = [tab.url, (new URL(tab.url)).hostname];
   };
 }
 
@@ -121,17 +124,14 @@ function receiveProcessInfo(processes) {
   for (const pid of reapList) {
     let desc = describeProcess(processes[pid]);
     chrome.processes.terminate(pid, function(result){
-      if (result) {
-	console.info(desc + ': dead');
-	chrome.notifications.create('', {
-	  type: 'basic',
-	  iconUrl: 'icon128.png',
-	  title: 'Reaper',
-	  message: desc + ': terminated'
-	});
-      } else {
-	console.error(desc + ': termination failed');
-      }
+      // Ignore result (often false when termination was successful).
+      console.info(desc + ': dead');
+      chrome.notifications.create('', {
+	type: 'basic',
+	iconUrl: 'icon128.png',
+	title: 'Reaper',
+	message: desc + ': terminated'
+      });
     });
   }
 
