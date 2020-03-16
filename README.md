@@ -9,6 +9,8 @@ Institute of Standards and Technology](https://www.nist.gov).
 
 Related technical reports and publications:
 
+  * NIST IR 8289, [Quantities and Units for Software Product
+    Measurements](https://doi.org/10.6028/NIST.IR.8289) (2020)
   * NIST IR 8101, [A rational foundation for software
     metrology](https://doi.org/10.6028/NIST.IR.8101) (2016)
   * NIST TN 1943, [Architecture for software-assisted quantity
