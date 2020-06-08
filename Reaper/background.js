@@ -103,7 +103,7 @@ function receiveProcessInfo(processes) {
           if (cpu_history[pid][i] < cthresh)
             break reaper;
 
-        // Whitelist.
+        // No-kill list.
         let p = processes[pid],
 	    title = p.tasks[0].title,
 	    url = pid2url[pid],

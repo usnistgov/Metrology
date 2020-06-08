@@ -34,7 +34,7 @@ The extension requires the following permissions/APIs:
 - processes:  needed for the core function of monitoring and terminating processes.
 - notifications:  needed to notify the user when a process is terminated.
 - storage:  needed to save settings.
-- tabs:  needed to determine hostnames for whitelisting.
+- tabs:  needed to determine hostnames for no-kill listing.
 
 Problematically, the
 [processes](https://developer.chrome.com/extensions/processes) API is marked
@@ -58,7 +58,7 @@ install it manually.  Luckily, this is not difficult and only takes a minute:
     4. Relaunch Chrome for this to take effect (use the Relaunch button that appears at the bottom of the screen and all your open tabs will be preserved)
 
 2. Install the extension
-    1. Download either [Reaper-1.1.2.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.2.tar.xz) or [Reaper-1.1.2.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.2.zip) (don't right-click; click through and then Download)
+    1. Download either [Reaper-1.1.3.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.3.tar.xz) or [Reaper-1.1.3.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.3.zip) (don't right-click; click through and then Download)
     2. Unpack the archive file somewhere permanent
     3. Select More Tools > Extensions from the Chrome menu or manually enter the URL chrome://extensions
     4. Ensure the "Developer mode" toggle at the top of the page is on, and click the "Load unpacked" button <img src="devmode.png" text="Developer mode">
@@ -100,12 +100,12 @@ Since the appropriate CPU utilization threshold can vary based on the speed
 of the computer, settings are saved only in local storage; they are never
 synced to other devices.
 
-Whitelist
----------
+No-kill list
+------------
 
 In the event that some extension or web site must be allowed to run even
-though it may exceed the threshold, it can be exempted using the whitelist.
-A process can be exempted in two ways:  by description or by hostname.
+though it may exceed the threshold, it can be exempted using the no-kill
+list.  A process can be exempted in two ways:  by description or by hostname.
 
 Every process has a description like "Tab: World News" or "Extension: Reaper"
 that can be used to identify it.  For active processes, this description can
@@ -114,15 +114,14 @@ menu).  For processes that Reaper has just terminated, it can be found in the
 console log (see <a href="#log">Troubleshooting</a>) and in the push
 notification.
 
-Processes that are rendering web pages can furthermore be exempted by
-whitelisting the hostname that appears in the URL.  This allows an entire
-site to be exempted, while a single page on the site could be exempted by
-description.
+Processes that are rendering web pages can furthermore be exempted by listing
+the hostname that appears in the URL.  This allows an entire site to be
+exempted, while a single page on the site could be exempted by description.
 
-If whitelisting a hostname seems not to work, check the URL of the terminated
+If listing a hostname seems not to work, check the URL of the terminated
 process in the console log.  Sites are sometimes subtly redirected, e.g.,
-from example.test to www.example.test.  You need to whitelist the hostname
-that was actually terminated.
+from example.test to www.example.test.  You need to list the hostname that
+was actually terminated.
 
 
 Security
@@ -170,7 +169,7 @@ incognito" switch is turned off.
 
 When a profile or incognito mode boundary is crossed, Reaper may be unable to
 determine the URL associated with a process.  In that case, the URL will not
-appear in the log, and whitelisting the hostname will not work.
+appear in the log, and no-kill listing the hostname will not work.
 
 
 Other Known Problems
@@ -192,6 +191,8 @@ in the extension's console log under Developer Tools.  To view the log:
 
 Change Log
 ==========
+
+2020-06-08:  Version 1.1.3:  Renamed whitelist to no-kill list.
 
 2019-08-19:  Version 1.1.2:
 
