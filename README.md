@@ -1,8 +1,15 @@
 # Software metrology
 
+**Helping physical scientists and computer scientists understand one another a
+little bit better so that metrology (the science of measurement) and science
+generally (the system of human knowledge) will be more cohesive across
+disciplines**
+
 This is the repository of the software metrology project of the [Information
-Technology Laboratory](https://www.nist.gov/itl) of the U.S. [National
+Technology Laboratory](https://www.nist.gov/itl) of the US [National
 Institute of Standards and Technology](https://www.nist.gov).
+
+Software:
 
   * [Dimensionless units software kit](https://github.com/usnistgov/Metrology/tree/master/DUSK)
   * [Chrome Reaper](https://github.com/usnistgov/Metrology/tree/master/Reaper)
