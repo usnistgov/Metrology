@@ -20,6 +20,8 @@ Measurements of software:
 
   * NIST IR 8289, [Quantities and Units for Software Product
     Measurements](https://doi.org/10.6028/NIST.IR.8289) (2020)
+      * Related:  [A system of quantities from software metrology](https://doi.org/10.1016/j.measurement.2020.108435),
+        Measurement (2021)
   * NIST IR 8101, [A rational foundation for software
     metrology](https://doi.org/10.6028/NIST.IR.8101) (2016)
   * Presentation, [Mostly sunny with a chance of
@@ -30,7 +32,7 @@ Measurements of software:
     IT Professional (2018)
   * NIST TN 1990, ['Software Science' revisited:  rationalizing Halstead's
     system using dimensionless units](https://doi.org/10.6028/NIST.TN.1990)
-   (2018)
+    (2018)
 
 More general metrology:
 
