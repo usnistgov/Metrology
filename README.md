@@ -45,6 +45,7 @@ More general metrology:
       * [Architecture for software-assisted quantity
         calculus](https://doi.org/10.1016/j.csi.2017.10.002),
         Computer Standards & Interfaces (2017)
+  * [Dealing with counts and other quantal quantities in quantity calculus](https://doi.org/10.1016/j.measurement.2022.112226), Measurement (2023)
   * NIST IR 8368, [Ambiguity of the term _quantity value_ in metrology](https://doi.org/10.6028/NIST.IR.8368) (2021)
   * NIST TN 2034, [Defining 'kind of quantity'](https://doi.org/10.6028/NIST.TN.2034) (2019)
 
