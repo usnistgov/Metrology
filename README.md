@@ -24,6 +24,8 @@ Measurements of software:
         Measurement (2021)
   * NIST IR 8101, [A rational foundation for software
     metrology](https://doi.org/10.6028/NIST.IR.8101) (2016)
+  * NIST IR 8456, [What does the pixel
+    measure?](https://doi.org/10.6028/NIST.IR.8456) (2023)
   * Presentation, [Mostly sunny with a chance of
     cyber](https://www.nist.gov/node/1114701) (2016)
   * [Bad Security Metrics Part 1:  Problems](https://doi.org/10.1109/MITP.2018.011301733),
