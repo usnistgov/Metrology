@@ -3,77 +3,107 @@ recommendation or endorsement by NIST.
 
 ![Reaper icon](icon128.png)
 
-The Chrome Reaper
-=================
+Chrome Reaper
+=============
 
 Reaper is a Chrome (or Chromium) browser extension that terminates browser
-processes when they use too much CPU.  Likely targets include:
+processes when they use too much CPU.  Anything that the browser regards as
+a process is a potential target.  This includes tabs, renderers, subframes,
+other extensions, and itself.
 
-- Cryptominers
-- rowhammer.js
+Reaper responds to the following problems:
+
 - Web pages that enter a busy loop when ads are blocked
-- Web pages and extensions that contain broken code
-- Web pages and extensions that are extremely bloated and slow
+- Web pages and extensions that have bugs resulting in high CPU utilization
+- Web pages and extensions that are just heavyweight, bloated, and slow
+- Malicious and otherwise unwanted JavaScript (e.g., uninvited cryptominers)
 
-When Reaper terminates a process, typically a web page goes blank or an
-extension dies suddenly.  So there is no mystery why this occurred, you get a
-push notification that looks something like this:
+When Reaper terminates a process, typically a web page goes blank with a
+message like the following:
+
+![Frowning-dead folder icon.  Aw, Snap!  Something went wrong while displaying this webpage.  Error code: RESULT_CODE_KILLED](aw-snap.png)
+
+So there is no mystery why this occurred, you get a push notification that
+looks something like this:
 
 <img src="reaper-notification.png" alt="Reaper notification" width=345 height=64>
 
 The rest of the time, Reaper shows itself to be active by displaying the
-total CPU utilization of the browser in a small icon in your address bar.
+total CPU utilization of the browser in a small icon in the toolbar:
 ![Mini icon](loadavg.png)
+
+
+Supported browser versions
+==========================
+
+At the time of writing, Reaper works in the stable channel release of Chrome
+for Linux, but a [dev channel
+release](https://www.chromium.org/getting-involved/dev-channel/) is required
+on Windows, MacOS, and ChromeOS.
+
+Reaper 2.0 worked when tested on the following versions of Chrome:
+
+- Linux:  Chrome Version 120.0.6099.109 (Official Build) unknown (64-bit)
+- MacOS Monterey:  Version 122.0.6182.0 (Official Build) dev (x86_64)
+- Windows 10:  Version 122.0.6182.0 (Official Build) dev (64-bit)
+
+For ChromeOS, the entire device has to be [switched to the dev channel](https://support.google.com/chromebook/answer/1086915?hl=en) before Reaper could possibly work.  This was not tested.
+
+Reaper is not supported on Android because the Android / Play Store versions of Chrome do not support extensions.  When tested on the Chromium-based Kiwi Browser (Dev) 120.0.6099.26, Reaper installed but did not work correctly.
 
 
 Permissions
 ===========
 
-The extension requires the following permissions/APIs:
+Reaper requires the following permissions/APIs:
 
-- processes:  needed for the core function of monitoring and terminating processes.
+- processes:  needed for the core function of identifying, monitoring, and terminating processes.  The [processes API](https://developer.chrome.com/docs/extensions/reference/api/processes) is marked "dev channel only."
 - notifications:  needed to notify the user when a process is terminated.
+- tabs (also known as "read your browsing history"):  needed to determine hostnames for no-kill listing.
 - storage:  needed to save settings.
-- tabs:  needed to determine hostnames for no-kill listing.
-
-Problematically, the
-[processes](https://developer.chrome.com/extensions/processes) API is marked
-as both "experimental" and "dev channel only."  However, it is possible to
-enable it in the standard release of Chrome, as verified with Version
-70.0.3538.77 (Official Build) (64-bit) for Mac, by following the installation
-instructions below.
 
 
-Installation Instructions
+Installation instructions
 =========================
 
-The extension uses an API that is marked "experimental."  Unfortunately, this
-means it can't be distributed through the Chrome Web Store&mdash;you need to
-install it manually.  Luckily, this is not difficult and only takes a minute:
+The following instructions describe in detail how to sideload Reaper.
 
-1. Enable the experimental APIs
-    1. Start Google Chrome
-    2. Open up chrome://flags (this URL must be entered manually)
-    3. Search for "Experimental Extension APIs" and enable <img src="experimental.png" text="Experimental mode">
-    4. Relaunch Chrome for this to take effect (use the Relaunch button that appears at the bottom of the screen and all your open tabs will be preserved)
+1. Download either [Reaper-2.0.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-2.0.tar.xz) or [Reaper-2.0.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-2.0.zip) (don't right-click; click through and then Download)
+2. Unpack the archive file somewhere permanent
+3. Launch the Chrome browser
+4. Open Chrome's extensions manager.  There are various ways to do it:
+    - Type the URL chrome://extensions in the search bar at the top and hit Enter
+    - Left click on the vertical ellipsis in the upper right corner of Chrome to open the menu, hover the mouse over the "Extensions" menu item to open the submenu, and left click on "Manage Extensions"
+    - Left click on the puzzle piece (Extensions) icon in the toolbar, then left click on "Manage extensions" at the bottom of the pop-up that appears
+    - While in Chrome Settings, left click on "Extensions" near the bottom of the list on the left side of the window
+5. Ensure the "Developer mode" toggle at the top of the page is on:  if the circle is on the left, click it to move it to the right
 
-2. Install the extension
-    1. Download either [Reaper-1.1.3.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.3.tar.xz) or [Reaper-1.1.3.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-1.1.3.zip) (don't right-click; click through and then Download)
-    2. Unpack the archive file somewhere permanent
-    3. Select More Tools > Extensions from the Chrome menu or manually enter the URL chrome://extensions
-    4. Ensure the "Developer mode" toggle at the top of the page is on, and click the "Load unpacked" button <img src="devmode.png" text="Developer mode">
-    5. Browse to select the folder containing the files you've just unpacked
-    6. The extension will appear in your address bar.
+    ![Interface showing developer mode toggle and load unpacked button](devmode.png)
 
-Do not delete the unpacked files after installation; the extension may fail
-with "File Not Found" errors if you do.
+6. Click the "Load unpacked" button
+7. Browse to the parent directory that contains the folder named Reaper-2.0
+8. Select the folder named Reaper-2.0 but do not browse into it.  This is done in one of the following ways depending on your platform and desktop preferences:
+    - Hold a shift key and left click on the folder (Linux/KDE, ChromeOS)
+    - Left click on the folder (MacOS)
+    - Hover the mouse pointer over the folder name until it is highlighted (Windows)
+9. Click "Open" at the bottom
+10. A message should say "Extension loaded" and a box for the extension should appear in the main area of the extensions manager
+11. Pin the extension to the toolbar.  There are two ways to do it:
+    - Left click the "Details" button inside the extension's box in extension manager, scroll down to "Pin to toolbar," and left click the toggle to toggle it on
+    - Left click on the puzzle piece (Extensions) icon in the toolbar, then left click on the grayed pin icon beside Reaper
+12. The extension's CPU utilization icon should then appear in the toolbar
+
+Do not delete the unpacked files after installation.  If you do, the
+extension may fail with "File Not Found" errors.
 
 
 Settings
 ========
 
-To access and change settings, right click on Reaper's tiny icon in the
-address bar and choose Options from the menu.
+To access Reaper's settings, do one of the following:
+
+- Right click on Reaper's icon in the toolbar and then left click on "Options" in the menu that appears
+- Left click the "Details" button inside Reaper's box in extension manager and left click on "Extension options" in the list that appears
 
 ![Settings dialog](dialog.png)
 
@@ -85,16 +115,13 @@ exceeds a threshold for a specified length of time.  The CPU threshold can be
 adjusted between 10% and 90% in increments of 10%.  The time can be set to
 various values ranging between 3 seconds and 30 seconds.
 
-The default threshold of 90% utilization for 5 seconds will catch malware
-that saturates the CPU while allowing a reasonable time for benign web pages
-to finish rendering.  In most cases, reducing the time to 3 seconds will
-improve reaction time without causing collateral damage.  However, on very
-slow systems, the time might need to be increased to avoid terminating benign
-web pages before they finish rendering.
+The default threshold is 90% utilization for 5 seconds.  If a favorite web
+site or extension is slow to load, the time threshold might need to be
+increased.
 
-Some cryptominers are designed to limit their CPU utilization to a level well
-below 90% to avoid detection.  To detect these, one can specify a lower
-utilization threshold combined with a longer time interval.
+Some cryptominers are designed to limit their CPU utilization to a level
+below 90% to avoid detection.  One can specify a lower utilization threshold
+combined with a longer time interval to catch these.
 
 Since the appropriate CPU utilization threshold can vary based on the speed
 of the computer, settings are saved only in local storage; they are never
@@ -109,43 +136,55 @@ list.  A process can be exempted in two ways:  by description or by hostname.
 
 Every process has a description like "Tab: World News" or "Extension: Reaper"
 that can be used to identify it.  For active processes, this description can
-be obtained from the Task Manager (More Tools > Task Manager from the Chrome
-menu).  For processes that Reaper has just terminated, it can be found in the
-console log (see <a href="#log">Troubleshooting</a>) and in the push
-notification.
+be obtained from Chrome's task manager.  To access the task manager, do one
+of the following:
 
-Processes that are rendering web pages can furthermore be exempted by listing
-the hostname that appears in the URL.  This allows an entire site to be
-exempted, while a single page on the site could be exempted by description.
+- Hold a shift key and press Esc
+- Left click on the vertical ellipsis in the upper right corner of Chrome to
+open the menu, hover the mouse over the "More tools" menu item to open the
+submenu, and left click on "Task manager"
 
-If listing a hostname seems not to work, check the URL of the terminated
-process in the console log.  Sites are sometimes subtly redirected, e.g.,
-from example.test to www.example.test.  You need to list the hostname that
-was actually terminated.
+For processes that Reaper has just terminated, the description can be found
+in the console log and in the push notification.  To view the log, left click
+the "service worker" link next to "Inspect views" inside Reaper's box in
+extension manager.
+
+Processes that render web pages can furthermore be exempted by listing the
+hostname that appears in the URL.  This allows an entire site to be exempted
+instead of only a single page.  If listing a hostname seems not to work,
+check the URL of the terminated process in the console log.  Sites are
+sometimes subtly redirected, e.g., from example.test to www.example.test.
+You need to list the hostname that was actually in use by the terminated
+process.
+
+It is possible for a web page to exceed the thresholds for termination before
+its hostname is made available to Reaper.  In such cases, only the
+description is usable to prevent termination.
 
 
 Security
 ========
 
-Reaper serves as a final, reactive layer of defense against cryptominers and
-other in-browser malware that chews up CPU.  If something malicious is killed
-by Reaper, this means that it got through all previous, proactive layers of
-defense and was actively running in your browser.  If you or your security
-officer determine that the suspicious item was indeed malicious, you/they
-should take actions such as
+Reaper serves as a final, reactive layer of defense based on a single
+indicator (CPU utilization).  If something malicious is killed by Reaper,
+this means that it got through all previous, proactive layers of defense and
+was running its payload in your browser.  If you or your security officer
+determine that the suspicious item was indeed malicious, you/they should take
+actions such as
 
 - Adjust your blocker to block it
-- Report it to your perimeter security team so they can block it
+- Report it to your organization's security team so they can block it
 - Report it to [Google Safe Browsing](https://safebrowsing.google.com/safebrowsing/report_badware/) and possibly [other similar services](https://decentsecurity.com/malware-web-and-phishing-investigation/)
-- Report it to their hosting company to take down the source
+- Report it to the relevant hosting company to consider taking down the source
 
-Reaper does no kind of filtering or identification of content; it only
-monitors CPU utilization.
+Reaper does no kind of filtering or identification of content.  It only
+monitors CPU utilization.  Malicious web content and extensions will not be
+terminated if their CPU utilization is under the threshold.
 
-In terms of net risk, there is a tradeoff between Reaper's mitigation of
-in-browser malware and the significant expansion of the attack surface and
-weakening of browser defenses that results from enabling experimental APIs
-and developer mode.
+In terms of net risk, Reaper's mitigation of in-browser malware must be
+weighed against the potential consequences of terminating benign processes
+and the expansion of attack surface that results from running dev channel
+Chrome.
 
 
 Privacy
@@ -153,13 +192,14 @@ Privacy
 
 When Reaper terminates a process, the description and associated URL (if
 available) are written to the console log and included in the push
-notification.
+notification.  Thus, the affected portion of your browsing history may leak
+through these channels.
 
 
-Isolation Problem
-=================
+Lack of profile containment
+===========================
 
-Certain Chrome isolation features are ineffective on Reaper.
+Chrome's profile isolation does not apply to Reaper.
 
 - If multiple user profiles ("people") are active simultaneously, Reaper will
 terminate processes belonging to user profiles other than the one in which
@@ -169,28 +209,38 @@ incognito" switch is turned off.
 
 When a profile or incognito mode boundary is crossed, Reaper may be unable to
 determine the URL associated with a process.  In that case, the URL will not
-appear in the log, and no-kill listing the hostname will not work.
+appear in the log and no-kill listing the hostname will not work.
 
 
-Other Known Problems
-====================
+Other issues
+============
 
 The descriptions of processes are too long for push notifications.
 
+Subframes are new.  Examples observed had URLs but the descriptions were just
+"Subframe."
 
-<a name="log"></a>Troubleshooting
-=================================
+The puzzle piece toolbar icon is sometimes missing and appears only after
+Reaper is installed.
+
+
+Troubleshooting
+===============
 
 Reaper's attempts to terminate processes and possible failures can be found
-in the extension's console log under Developer Tools.  To view the log:
-
-1. Select More Tools > Extensions from the Chrome menu or manually enter the URL chrome://extensions
-2. Under Reaper, next to Inspect views, click on background.html
-3. Select the Console tab if it is not already selected
+in the extension's console log.  To view the log, left click the "service
+worker" link next to "Inspect views" inside Reaper's box in extension
+manager.
 
 
-Change Log
+Change log
 ==========
+
+2023-12-19:  Version 2.0:
+
+- Migrated to Manifest V3, which required conversion from background page to service worker.
+- Fixed a warning about the willReadFrequently attribute.
+- Fixed CPU utilization being NaN% occasionally.
 
 2020-06-08:  Version 1.1.3:  Renamed whitelist to no-kill list.
 
@@ -212,10 +262,10 @@ Change Log
 2018-10-31:  Version 1.0:  First release.
 
 
-Inherited License and Credits
+Inherited license and credits
 =============================
 
-Source code and installation instructions of Reaper were based on Process Monitor for
+The source code and installation instructions of Reaper were forked from Process Monitor for
 Chrome by Andy Young [@andyy](http://twitter.com/andyy), code at
 [https://github.com/andyyoung/Process-Monitor-for-Chrome](https://github.com/andyyoung/Process-Monitor-for-Chrome)
 (MIT license, see below).
@@ -252,7 +302,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-NIST Software Disclaimer
+NIST software disclaimer
 ========================
 
 This extension was developed by David Flater, david.flater@nist.gov.

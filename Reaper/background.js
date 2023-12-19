@@ -3,6 +3,9 @@
 // See LICENSE file.
 // 2018-10-31
 
+// These global variables would be wiped out if the service worker were to
+// shut down.  It appears not to shut down.
+
 var cpu_history = {'overall': []};
 var icon_draw_context;
 var done_init = false;
@@ -26,10 +29,11 @@ var wlist = [];
 function init() {
   if (done_init) { return; }
   done_init = true;
-  icon_draw_context = document.getElementById('canvas').getContext('2d');
+  let canvas = new OffscreenCanvas(19, 19);
+  icon_draw_context = canvas.getContext('2d', {alpha: false, desynchronized: false, colorspace: 'srgb', willReadFrequently: true});
   icon_draw_context.fillStyle = '#f6f6f6';
   icon_draw_context.fillRect(0, 0, 19, 19);
-  chrome.browserAction.setIcon({imageData: icon_draw_context.getImageData(0, 0, 19, 19)});
+  chrome.action.setIcon({imageData: icon_draw_context.getImageData(0, 0, 19, 19)});
   chrome.storage.local.get({   // runs asynchronously
       settingsthresh: 5,
       settingcthresh: 90,
@@ -84,7 +88,9 @@ function receiveProcessInfo(processes) {
       reapList = [];
 
   for (const pid in processes) { // pid is a stringified integer.
-    totalCPU += processes[pid].cpu;
+    let pidcpu = processes[pid].cpu;
+    if (pidcpu !== undefined)
+      totalCPU += pidcpu;
     if (!cpu_history[pid]) {
       // New process
       cpu_history[pid] = [];
@@ -148,10 +154,10 @@ function receiveProcessInfo(processes) {
   while (cpu_history['overall'].length > MAXKEEP)
     cpu_history['overall'].pop();
   draw_cpu_graph(cpu_history['overall'], icon_draw_context, 19, 19, 8, 1, 0);
-  chrome.browserAction.setIcon({ imageData: icon_draw_context.getImageData(0, 0, 19, 19) });
+  chrome.action.setIcon({ imageData: icon_draw_context.getImageData(0, 0, 19, 19) });
   padding = totalCPU < 10 ? ' ' : '';
-  chrome.browserAction.setBadgeText({text: padding + Math.floor(totalCPU).toString() + '%' + padding});
-  chrome.browserAction.setBadgeBackgroundColor({color:get_color_for_cpu(totalCPU)});
+  chrome.action.setBadgeText({text: padding + Math.floor(totalCPU).toString() + '%' + padding});
+  chrome.action.setBadgeBackgroundColor({color:get_color_for_cpu(totalCPU)});
 }
 
 function draw_cpu_graph(data, context, width, height, height_offset, col_width, gap_width) {
@@ -172,4 +178,5 @@ function get_color_for_cpu(cpu) {
   return cpu > 30 ? '#F00' : '#228B22';
 }
 
-document.addEventListener('DOMContentLoaded', init);
+chrome.runtime.onInstalled.addListener(init);
+chrome.runtime.onStartup.addListener(init);
