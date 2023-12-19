@@ -68,7 +68,7 @@ Installation instructions
 
 The following instructions describe in detail how to sideload Reaper.
 
-1. Download either [Reaper-2.0.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-2.0.tar.xz) or [Reaper-2.0.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-2.0.zip) (don't right-click; click through and then Download)
+1. Download either [Reaper-2.0.1.tar.xz](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-2.0.1.tar.xz) or [Reaper-2.0.1.zip](https://github.com/usnistgov/Metrology/blob/master/Reaper/Reaper-2.0.1.zip) (don't right-click; click through and then Download)
 2. Unpack the archive file somewhere permanent
 3. Launch the Chrome browser
 4. Open Chrome's extensions manager.  There are various ways to do it:
@@ -81,8 +81,8 @@ The following instructions describe in detail how to sideload Reaper.
     ![Interface showing developer mode toggle and load unpacked button](devmode.png)
 
 6. Click the "Load unpacked" button
-7. Browse to the parent directory that contains the folder named Reaper-2.0
-8. Select the folder named Reaper-2.0 but do not browse into it.  This is done in one of the following ways depending on your platform and desktop preferences:
+7. Browse to the parent directory that contains the folder named Reaper-2.0.1
+8. Select the folder named Reaper-2.0.1 but do not browse into it.  This is done in one of the following ways depending on your platform and desktop preferences:
     - Hold a shift key and left click on the folder (Linux/KDE, ChromeOS)
     - Left click on the folder (MacOS)
     - Hover the mouse pointer over the folder name until it is highlighted (Windows)
