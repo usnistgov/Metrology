@@ -215,6 +215,14 @@ appear in the log and no-kill listing the hostname will not work.
 Other issues
 ============
 
+The Reaper extension is not robust against a service worker shutdown by
+Chrome.
+
+Reaper just becomes inactive sometimes (icon stops updating, console log goes
+blank, processes are not terminated).  It remains unclear whether this
+corresponds to a service worker shutdown or is a separate issue (e.g., it
+killed itself).
+
 The descriptions of processes are too long for push notifications.
 
 Subframes are new.  Examples observed had URLs but the descriptions were just
@@ -232,9 +240,17 @@ in the extension's console log.  To view the log, left click the "service
 worker" link next to "Inspect views" inside Reaper's box in extension
 manager.
 
+Uncaught exceptions can be viewed by left clicking on a red "Errors" button
+that appears inside Reaper's box in extension manager.
+
 
 Change log
 ==========
+
+2023-12-19:  Version 2.0.1:
+
+- Silenced "Process not found" error that occurs when a targeted process died already and Reaper lost the race.
+- Cleaned up some undefined and null checks.
 
 2023-12-19:  Version 2.0:
 

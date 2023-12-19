@@ -3,8 +3,7 @@
 // See LICENSE file.
 // 2018-10-31
 
-// These global variables would be wiped out if the service worker were to
-// shut down.  It appears not to shut down.
+// These global variables are wiped out if the service worker is shut down.
 
 var cpu_history = {'overall': []};
 var icon_draw_context;
@@ -69,7 +68,7 @@ function settingsChange(changes, areaName) {
 function describeProcess(process) {
   let descript = process.tasks[0].title,
       url = pid2url[process.id];
-  if (typeof url !== 'undefined')
+  if (url !== undefined)
     descript += ' (' + url[0] + ')';
   return descript;
 }
@@ -78,7 +77,7 @@ function tabCallbackCurry(pid) {
   return function(tab) {
     // We get "No tab with id: x" when profile boundaries are crossed.
     if (!chrome.runtime.lastError)
-      if (typeof tab !== 'undefined')
+      if (tab !== undefined)
         pid2url[pid] = [tab.url, (new URL(tab.url)).hostname];
   };
 }
@@ -95,7 +94,7 @@ function receiveProcessInfo(processes) {
       // New process
       cpu_history[pid] = [];
       let tabId = processes[pid].tasks[0].tabId;
-      if (typeof tabId !== 'undefined')
+      if (tabId !== undefined)
         chrome.tabs.get(tabId, tabCallbackCurry(pid));
     }
     cpu_history[pid].unshift(processes[pid].cpu);
@@ -114,7 +113,7 @@ function receiveProcessInfo(processes) {
 	    title = p.tasks[0].title,
 	    url = pid2url[pid],
             hostname = null;
-        if (typeof url !== 'undefined')
+        if (url !== undefined)
           hostname = url[1];
         for (const w of wlist)
           if (title == w || hostname != null && hostname == w)
@@ -130,7 +129,11 @@ function receiveProcessInfo(processes) {
   for (const pid of reapList) {
     let desc = describeProcess(processes[pid]);
     chrome.processes.terminate(pid, function(result){
-      // Ignore result (often false when termination was successful).
+      // Ignore result, which is often false when termination was successful.
+      // Also ignore "Process not found" that occurs when it died already.
+      let rterror = chrome.runtime.lastError;
+      if (rterror != null && !rterror.message.startsWith('Process not found'))
+        console.info('processes.terminate complained: ' + rterror.message);
       console.info(desc + ': dead');
       chrome.notifications.create('', {
 	type: 'basic',
