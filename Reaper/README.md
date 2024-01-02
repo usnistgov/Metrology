@@ -1,3 +1,6 @@
+[Public Data Resource record](https://data.nist.gov/od/id/7D6696ECDA1445A2E0532457068131DE2013) (MIDAS record # 2013)  
+doi:[10.18434/T4/1503404](https://doi.org/10.18434/T4/1503404)
+
 Any mention of commercial products is for information only; it does not imply
 recommendation or endorsement by NIST.
 
@@ -103,6 +106,7 @@ Settings
 To access Reaper's settings, do one of the following:
 
 - Right click on Reaper's icon in the toolbar and then left click on "Options" in the menu that appears
+- Left click on the puzzle piece (Extensions) icon in the toolbar, left click on the vertical ellipsis beside Reaper, and then left click on "Options" in the menu that appears
 - Left click the "Details" button inside Reaper's box in extension manager and left click on "Extension options" in the list that appears
 
 ![Settings dialog](dialog.png)
@@ -246,6 +250,12 @@ that appears inside Reaper's box in extension manager.
 
 Change log
 ==========
+
+2024-01-02:  Minor post-release updates to README not included in 2.0.1
+tarballs:
+
+- Documented a third way to access Reaper's settings.
+- Added DOI, MIDAS record number, and link to Reaper's record in the NIST Public Data Repository.
 
 2023-12-19:  Version 2.0.1:
 
