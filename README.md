@@ -38,6 +38,7 @@ Measurements of software:
 
 More general metrology:
 
+  * [Unit one is intrusive](https://doi.org/10.1088/1681-7575/ad4bea), Metrologia (2024)
   * NIST TN 1943, [Architecture for software-assisted quantity
     calculus](https://doi.org/10.6028/NIST.TN.1943) (2016) and its
     derivative works:
