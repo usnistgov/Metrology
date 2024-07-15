@@ -36,7 +36,7 @@ Measurements of software:
     system using dimensionless units](https://doi.org/10.6028/NIST.TN.1990)
     (2018)
 
-More general metrology:
+General metrology:
 
   * [Unit one is intrusive](https://doi.org/10.1088/1681-7575/ad4bea), Metrologia (2024)
   * NIST TN 1943, [Architecture for software-assisted quantity
@@ -49,6 +49,10 @@ More general metrology:
         calculus](https://doi.org/10.1016/j.csi.2017.10.002),
         Computer Standards & Interfaces (2017)
   * [Dealing with counts and other quantal quantities in quantity calculus](https://doi.org/10.1016/j.measurement.2022.112226), Measurement (2023)
+
+Metrological concepts and vocabulary:
+
+  * NIST IR 8530, [A unified model of core metrological concepts](https://doi.org/10.6028/NIST.IR.8530) (2024)
   * NIST IR 8368, [Ambiguity of the term _quantity value_ in metrology](https://doi.org/10.6028/NIST.IR.8368) (2021)
   * NIST TN 2034, [Defining 'kind of quantity'](https://doi.org/10.6028/NIST.TN.2034) (2019)
 
