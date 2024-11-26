@@ -13,6 +13,7 @@ Institute of Standards and Technology](https://www.nist.gov).
 
   * [Dimensionless units software kit](https://github.com/usnistgov/Metrology/tree/master/DUSK)
   * [Chrome Reaper](https://github.com/usnistgov/Metrology/tree/master/Reaper)
+  * [ConsensusMeasurement](https://doi.org/10.18434/mds2-3497) (Ruby module)
 
 ## Technical reports and publications
 
@@ -49,6 +50,7 @@ General metrology:
         calculus](https://doi.org/10.1016/j.csi.2017.10.002),
         Computer Standards & Interfaces (2017)
   * [Dealing with counts and other quantal quantities in quantity calculus](https://doi.org/10.1016/j.measurement.2022.112226), Measurement (2023)
+  * [Measuring social consensus](https://doi.org/10.48550/arXiv.2411.12067), cs.SI (2024)
 
 Metrological concepts and vocabulary:
 
